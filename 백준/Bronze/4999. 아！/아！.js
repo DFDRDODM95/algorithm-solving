@@ -1,5 +1,5 @@
-const fs = require('fs');
-const input = fs.readFileSync(0, 'utf8').toString().split('\n');
+const fs = require("fs");
+const input = fs.readFileSync(0, "utf8").toString().split('\n');
 
 const [ans, rq] = input;
 
