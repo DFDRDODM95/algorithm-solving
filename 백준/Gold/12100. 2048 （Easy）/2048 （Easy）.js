@@ -5,31 +5,71 @@ const n = parseInt(inputData[0]);
 const board = inputData.slice(1, n + 1).map(str => str.split(' ').map(item => parseInt(item)) );
 
 let board1 = board.map(v => v.slice());
-function rotate() {
-    let temp = board1.map(v => v.slice());
-
-    for (let i = 0; i < board.length; i++) {
-        for (let j = 0; j < board[0].length; j++) {
-            board1[i][j] = temp[n - 1 - j][i];
-        }
-    }
-}
 
 function tilt(dir) {
-    while (dir-- > 0) rotate();
-    for (let i = 0; i < n; i++) {
-        let tilted = new Array(n).fill(0);
-        let idx = 0;
-        for (let j = 0; j < n; j++) {
-            if (board1[i][j] === 0) continue;
-            if (tilted[idx] === 0)
-                tilted[idx] = board1[i][j];
-            else if (tilted[idx] === board1[i][j])
-                tilted[idx++] *= 2;
-            else
-                tilted[++idx] = board1[i][j];
+    if (dir === 0) {
+        for (let i = 0; i < n; i++) {
+            let tilted = new Array(n).fill(0);
+            let idx = 0;
+            for (let j = 0; j < n; j++) {
+                if (board1[i][j] === 0) continue;
+                if (tilted[idx] === 0) 
+                    tilted[idx] = board1[i][j];
+                else if (tilted[idx] === board1[i][j]) 
+                    tilted[idx++] *= 2;
+                else
+                    tilted[++idx] = board1[i][j];
+            }
+            for (let j = 0; j < n; j++) board1[i][j] = tilted[j];
         }
-    for (let j = 0; j < n; j++) board1[i][j] = tilted[j];
+    }
+    else if (dir === 1) {
+        for (let i = 0; i < n; i++) {
+            let tilted = new Array(n).fill(0);
+            let idx = 0;
+            for (let j = n - 1; j >= 0; j--) {
+                if (board1[i][j] === 0) continue;
+                if (tilted[idx] === 0)
+                    tilted[idx] = board1[i][j];
+                else if (tilted[idx] === board1[i][j])
+                    tilted[idx++] *= 2;
+                else
+                    tilted[++idx] = board1[i][j];
+            }
+            for (let j = 0; j < n; j++) board1[i][n - 1 - j] = tilted[j];
+        }
+    }
+    else if (dir === 2) {
+        for (let j = 0; j < n; j++) {
+            let tilted = new Array(n).fill(0);
+            let idx = 0;
+            for (let i = 0; i < n; i++) {
+                if (board1[i][j] === 0) continue;
+                if (tilted[idx] === 0)
+                    tilted[idx] = board1[i][j];
+                else if (tilted[idx] === board1[i][j])
+                    tilted[idx++] *= 2;
+                else
+                    tilted[++idx] = board1[i][j];
+            }
+            for (let i = 0; i < n; i++) board1[i][j] = tilted[i];
+        }
+    }
+    else if (dir === 3) {
+        for (let j = 0; j < n; j++) {
+            let tilted = new Array(n).fill(0);
+            let idx = 0;
+            for (let i = n - 1; i >= 0; i--) {
+                if (board1[i][j] === 0) continue;
+                if (tilted[idx] === 0)
+                    tilted[idx] = board1[i][j];
+                else if (tilted[idx] === board1[i][j])
+                    tilted[idx++] *= 2;
+                else
+                    tilted[++idx] = board1[i][j];
+            }
+            for (let i = 0; i < n; i++) board1[n - 1 - i][j] = tilted[i];
+        }
     }
 }
 
@@ -38,7 +78,7 @@ for (let tmp = 0; tmp < 1024; tmp++) {
     board1 = board.map(v => v.slice());
     let brute = tmp;
     for (let i = 0; i < 5; i++) {
-        let dir = brute % 4;
+        let dir = Math.floor(brute % 4);
         brute /= 4;
         tilt(dir);
     }
