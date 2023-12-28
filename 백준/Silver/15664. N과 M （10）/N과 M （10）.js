@@ -5,7 +5,6 @@ const [n, m] = inputData[0];
 const tc = inputData[1].sort( (a, b) => a - b );
 
 let arr = new Array(m).fill(0);
-let isUsed = new Array(n).fill(0);
 let set1 = new Set();
 function func1(k, a) {
     if (k === m) {
